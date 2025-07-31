@@ -16,6 +16,33 @@ class CourseRepository extends ServiceEntityRepository
         parent::__construct($registry, Course::class);
     }
 
+        /**
+         * Recherche des cours dont la durée est supérieure à 2 jours
+         * @return Course[] Returns an array of Course objects
+         */
+        public function findByDuration(int $duration = 2): array
+        {
+            // DQL
+            /*$entityManager = $this->getEntityManager();
+            $dql = "SELECT c FROM App\Entity\Course c 
+                    WHERE c.duration > :duration
+                    ORDER BY c.dateCreated DESC";
+            $query = $entityManager->createQuery($dql);
+            $query->setParameter('duration', $duration);
+            $query->setMaxResults(5);
+            return $query->getResult();*/
+
+            $queryBuilder = $this->createQueryBuilder('c');
+            $queryBuilder->andWhere('c.duration > :duration')
+                ->setParameter('duration', $duration)
+                ->orderBy('c.dateCreated', 'DESC')
+                ->setMaxResults(5);
+
+            return $queryBuilder->getQuery()->getResult();
+        }
+
+
+
     //    /**
     //     * @return Course[] Returns an array of Course objects
     //     */
