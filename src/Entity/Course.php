@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\CourseRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: CourseRepository::class)]
 class Course
@@ -14,6 +15,7 @@ class Course
     #[ORM\Column]
     private ?int $id = null;
 
+    #[Assert\Length(min: 6, max: 255)]
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 

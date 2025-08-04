@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Course;
+use App\Form\CourseType;
 use App\Repository\CourseRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -42,8 +43,35 @@ final class CourseController extends AbstractController
     #[Route('/create', name: 'create', methods: ['GET', 'POST'])]
     public function create(Request $request): Response
     {
-        dump($request);
-        return $this->render('course/create.html.twig');
+        // Step 1 : Instancier un formulaire (dans notre cas avec données vide)
+        // param1: Quel est le formulaire
+        // param2: la donnée par défaut dans le formulaire
+        $course = new Course();
+
+        // Attention on envoie l'addresse mémoire de $course
+        // Cela veut dire que l'objet liée au formulaire dans la mémoire de la machine
+        $form = $this->createForm(CourseType::class, $course);
+
+        // Je récupère les données SI saisies
+        // PS: Ca injecte les données du formulaire saisie dans l'adresse mémoire
+        // de course, remplir l'objet course avec les données saisies
+        // ATTENTION : SI ON A SAISIE ET SUBMIT
+        $form->handleRequest($request);
+
+        // Pour savoir si il y'a eu un submit
+        if ($form->isSubmitted() && $form->isValid()) {
+            dump($course);
+
+            // TODO: Insérer l'objet dans la base de données
+
+            return "On a submit";
+        }
+
+        // Attention !
+        // On note bien que le formulaire est envoyé dans le front
+        return $this->render('course/create.html.twig', [
+            'courseForm' => $form->createView(),
+        ]);
     }
 
     #[Route('/{id}/edit', name: 'edit', requirements: ['id' => '\d+'], methods: ['GET', 'POST'])]

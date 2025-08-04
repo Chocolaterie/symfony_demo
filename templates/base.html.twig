@@ -4,6 +4,7 @@
         <meta charset="UTF-8">
         <title>{% block title %}Demo{% endblock %}</title>
         <link rel="icon" href="{{ asset('img/icon.png') }}">
+        <link rel="stylesheet" href="{{ asset('vendor/uikit/css/uikit.min.css') }}">
         {% block stylesheets %}
 
         {% endblock %}
@@ -17,7 +18,7 @@
     <header>
         {% include '_navbar.html.twig' %}
     </header>
-    <main>
+    <main class="uk-container">
         {% block body %}{% endblock %}
     </main>
     <footer>
