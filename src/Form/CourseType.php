@@ -16,12 +16,6 @@ class CourseType extends AbstractType
             ->add('content')
             ->add('duration')
             ->add('published')
-            ->add('dateCreated', null, [
-                'widget' => 'single_text',
-            ])
-            ->add('dateModified', null, [
-                'widget' => 'single_text',
-            ])
         ;
     }
 

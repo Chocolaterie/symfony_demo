@@ -41,7 +41,7 @@ final class CourseController extends AbstractController
     }
 
     #[Route('/create', name: 'create', methods: ['GET', 'POST'])]
-    public function create(Request $request): Response
+    public function create(Request $request, EntityManagerInterface $em): Response
     {
         // Step 1 : Instancier un formulaire (dans notre cas avec données vide)
         // param1: Quel est le formulaire
@@ -62,9 +62,22 @@ final class CourseController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             dump($course);
 
-            // TODO: Insérer l'objet dans la base de données
+            // TODO : Date de creation/modification
+            $course->setDateCreated(new \DateTimeImmutable("now"));
 
-            return "On a submit";
+            // TODO: Insérer l'objet dans la base de données
+            // Prévenir qu'on manipule l'objet Course pour le BDD/ORM
+            $em->persist($course);
+
+            // Envoyer dans la BDD
+            $em->flush();
+
+            // TODO : Rediriger sur une page avec message succès
+            // Envoyer un message succès
+            $this->addFlash("success", "Le cours a été enregistré avec succès !");
+
+            // Rediriger sur l'accueil
+            return $this->redirectToRoute('main_home');
         }
 
         // Attention !
