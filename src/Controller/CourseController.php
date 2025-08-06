@@ -17,9 +17,9 @@ final class CourseController extends AbstractController
     #[Route('/', name: 'list', methods: ['GET'])]
     public function list(CourseRepository $courseRepository): Response
     {
-        //$courses = $courseRepository->findAll();
+        $courses = $courseRepository->findAll();
         //$courses = $courseRepository->findBy(['published' => true], ['name' => 'DESC'], 5);
-        $courses = $courseRepository->findByDuration(5);
+        //$courses = $courseRepository->findByDuration(5);
 
         return $this->render('course/list.html.twig', [
             'courses' => $courses,
@@ -62,10 +62,9 @@ final class CourseController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             dump($course);
 
-            // TODO : Date de creation/modification
+            $course->setPublished(true);
             $course->setDateCreated(new \DateTimeImmutable("now"));
 
-            // TODO: Insérer l'objet dans la base de données
             // Prévenir qu'on manipule l'objet Course pour le BDD/ORM
             $em->persist($course);
 
