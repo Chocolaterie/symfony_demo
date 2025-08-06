@@ -2,7 +2,9 @@
 
 namespace App\Form;
 
+use App\Entity\Category;
 use App\Entity\Course;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -15,7 +17,10 @@ class CourseType extends AbstractType
             ->add('name')
             ->add('content')
             ->add('duration')
-            ->add('published')
+            ->add('category', EntityType::class, [
+                'class' => Category::class,
+                'choice_label' => 'name', // Quel champ de category à afficher dans le <select><option> généré
+            ])
         ;
     }
 
