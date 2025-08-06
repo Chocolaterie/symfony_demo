@@ -34,6 +34,9 @@ class Course
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $dateModified = null;
 
+    #[ORM\ManyToOne(inversedBy: 'courses')]
+    private ?Category $category = null;
+
     public function __construct()
     {
         $this->published = false;
@@ -112,6 +115,18 @@ class Course
     public function setDateModified(?\DateTimeImmutable $dateModified): static
     {
         $this->dateModified = $dateModified;
+
+        return $this;
+    }
+
+    public function getCategory(): ?Category
+    {
+        return $this->category;
+    }
+
+    public function setCategory(?Category $category): static
+    {
+        $this->category = $category;
 
         return $this;
     }
