@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Course;
 use App\Form\CourseType;
 use App\Repository\CourseRepository;
+use App\Service\CourseService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,11 +16,9 @@ use Symfony\Component\Routing\Attribute\Route;
 final class CourseController extends AbstractController
 {
     #[Route('/', name: 'list', methods: ['GET'])]
-    public function list(CourseRepository $courseRepository): Response
+    public function list(CourseService $courseService): Response
     {
-        $courses = $courseRepository->findAll();
-        //$courses = $courseRepository->findBy(['published' => true], ['name' => 'DESC'], 5);
-        //$courses = $courseRepository->findByDuration(5);
+        $courses = $courseService->getPublishedCourses();
 
         return $this->render('course/list.html.twig', [
             'courses' => $courses,
