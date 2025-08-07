@@ -7,7 +7,9 @@ use App\Form\CourseType;
 use App\Repository\CourseRepository;
 use App\Service\CourseService;
 use Doctrine\ORM\EntityManagerInterface;
+use PHPUnit\Util\Json;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -23,6 +25,17 @@ final class CourseController extends AbstractController
         return $this->render('course/list.html.twig', [
             'courses' => $courses,
         ]);
+    }
+
+    /**
+     * Version API JSON de la liste de cours
+     */
+    #[Route('/api/list', name: 'list_api', methods: ['GET'])]
+    public function listJSON(CourseService $courseService): JsonResponse
+    {
+        $courses = $courseService->getPublishedCourses();
+
+        return $this->json($courses);
     }
 
     #[Route('/{id}', name: 'show', requirements: ['id' => '\d+'], methods: ['GET'])]
