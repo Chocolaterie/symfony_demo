@@ -19,6 +19,7 @@
                                     </div>
                                 {% endif %}
 
+                                {# veut dire: Si je suis connecté(e) #}
                                 {% if app.user %}
                                     <div class="uk-alert-primary" uk-alert>
                                         <a href class="uk-alert-close" uk-close></a>
@@ -48,7 +49,7 @@
                                     <button class="uk-button uk-button-primary uk-button-large uk-width-1-1" type="submit">Login</button>
                                 </div>
                                 <div class="uk-text-small uk-text-center">
-                                    Not registered? <a href="#">Create an account</a>
+                                    Not registered? <a href="{{ path('app_register') }}">Create an account</a>
                                 </div>
                             </form>
                         </div>
