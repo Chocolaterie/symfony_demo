@@ -4,7 +4,7 @@ namespace App\Service;
 
 use PHPUnit\Framework\TestCase;
 
-class CourseServiceTest extends TestCase
+class BankServiceTest extends TestCase
 {
 
     // Un test pour tester que récupérer les cours publiés fonctionnent
